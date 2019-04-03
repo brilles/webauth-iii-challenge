@@ -2,6 +2,10 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 
+const registerRouter = require('../auth/register/register-router.js');
+const loginRouter = require('../auth/login/login-router.js');
+const usersRouter = require('../users/users-router.js');
+
 const server = express();
 
 server.use(helmet());
@@ -11,5 +15,12 @@ server.use(cors());
 server.get('/', (req, res) => {
   res.send('success');
 });
+
+// Open routes
+server.use('/api/register', registerRouter);
+server.use('/api/login', loginRouter);
+
+// Restricted Routes (todo)
+server.use('/api/users', usersRouter);
 
 module.exports = server;
