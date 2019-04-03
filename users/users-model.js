@@ -24,6 +24,8 @@ function findByUsername(username) {
     .first();
 }
 
-function find() {
-  return db('users').select('username');
+function find(department) {
+  return db('users')
+    .select('username', 'department')
+    .where({ department });
 }

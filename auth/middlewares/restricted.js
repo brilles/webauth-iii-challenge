@@ -11,6 +11,7 @@ const restricted = (req, res, next) => {
         res.status(401).json({ message: 'Invalid credentials.' });
       } else {
         req.decodedJwt = decodedToken;
+
         next();
       }
     });
