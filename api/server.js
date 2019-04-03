@@ -20,7 +20,7 @@ server.get('/', (req, res) => {
 server.use('/api/register', registerRouter);
 server.use('/api/login', loginRouter);
 
-// Restricted Routes (todo)
+// Restricted Routes
 server.use('/api/users', usersRouter);
 
 module.exports = server;
