@@ -67,7 +67,6 @@ export default class Signin extends Component {
     axios
       .post('http://localhost:5000/api/register', this.state)
       .then(res => {
-        console.log(res);
         this.signin({
           username: this.state.username,
           password: this.state.password
