@@ -26,6 +26,6 @@ function findByUsername(username) {
 
 function find(department) {
   return db('users')
-    .select('username', 'department')
+    .select('username', 'department', 'id')
     .where({ department });
 }

@@ -1,53 +1,56 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
 import axios from 'axios';
 
-export default function Signin() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    signin({
-      username,
-      password
-    });
-    setUsername('');
-    setPassword('');
+export default class Signin extends Component {
+  state = {
+    username: '',
+    password: ''
   };
 
-  const signin = creds => {
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <h2>Sign In</h2>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={this.state.username}
+            onChange={this.handleChanges}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={this.state.password}
+            onChange={this.handleChanges}
+            required
+          />
+          <button type="submit">Sign In</button>
+        </form>
+      </div>
+    );
+  }
+
+  handleChanges = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
+  handleSubmit = e => {
+    e.preventDefault();
+
     axios
-      .post('http://localhost:5000/api/login', creds)
-      .then(res => console.log(res))
+      .post('http://localhost:5000/api/login', this.state)
+      .then(res => {
+        localStorage.setItem('token', res.data.token);
+        this.props.history.push('/users');
+      })
       .catch(err => {
         console.log(err);
       });
   };
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Sign In</h2>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Pasword"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          required
-        />
-        {/* <Link to="/users"> */}
-        <button type="submit">Sign In</button>
-        {/* </Link> */}
-      </form>
-    </div>
-  );
 }
